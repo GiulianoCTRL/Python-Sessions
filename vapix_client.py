@@ -24,23 +24,42 @@ def get_ips_from_text(filename: str) -> list:
 def fetch_params(host: str, password: str = "pass") -> dict:
     """Fetch parameters from AXIS device via param.cgi.
 
-    :param ip:          IPv4 address of an AXIS device
+    :param host:        IPv4 address of an AXIS device
     :param password:    Password for root user, default = pass
     :return:            Dictionary containing the device's settings
     """
     # https://docs.python-requests.org/en/latest
     # https://realpython.com/python-requests/
-    settings = {}
-    req = requests.get(
+    response = requests.get(
         f"http://{host}/axis-cgi/param.cgi?action=list",
         auth=HTTPDigestAuth("root", password),
     )
     # Does request succeed?
-    req.raise_for_status()
-    print(req.text)
+    response.raise_for_status()
 
+    settings = {}
+    # Get response content as text
+    param_text = response.text
+    # split string after each newline symbol (\n) into a list of strings
+    param_list = param_text.split("\n")
+    for line in param_list:
+        # Check that param is not empty, continue to next item in loop
+        if line == "":
+            continue
+        # Initialize two variables at the same time, as we split each line
+        # into a list of two strings, the left side of the = and the right side
+        # of it
+        param, value = line.split("=", maxsplit=1)
+        # Add a key (name of the parameter) with the value of the parameter
+        settings[param] = value
+
+    # Return the freshly populated settings dict!
     return settings
 
 
+def fetch_server_report(host: str, password: str = "pass") -> str:
+    """Describe how this function works."""
+
+
 for ip_address in get_ips_from_text("ip_list.txt"):
-    fetch_params(ip_address)
+    print(fetch_params(ip_address))
