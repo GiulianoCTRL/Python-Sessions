@@ -1,6 +1,4 @@
-"""
-Docstring, a multiline string documenting this file.
-"""
+"""Docstring, a multiline string documenting this file."""
 
 # This is a comment!
 

@@ -21,7 +21,7 @@ def get_ips_from_text(filename: str) -> list:
     return ip_list
 
 
-def fetch_params(ip: str, password: str = "pass") -> dict:
+def fetch_params(host: str, password: str = "pass") -> dict:
     """Fetch parameters from AXIS device via param.cgi.
 
     :param ip:          IPv4 address of an AXIS device
@@ -32,7 +32,7 @@ def fetch_params(ip: str, password: str = "pass") -> dict:
     # https://realpython.com/python-requests/
     settings = {}
     req = requests.get(
-        f"http://{ip}/axis-cgi/param.cgi?action=list",
+        f"http://{host}/axis-cgi/param.cgi?action=list",
         auth=HTTPDigestAuth("root", password),
     )
     # Does request succeed?
@@ -42,5 +42,5 @@ def fetch_params(ip: str, password: str = "pass") -> dict:
     return settings
 
 
-for ip in get_ips_from_text("ip_list.txt"):
-    fetch_params(ip)
+for ip_address in get_ips_from_text("ip_list.txt"):
+    fetch_params(ip_address)

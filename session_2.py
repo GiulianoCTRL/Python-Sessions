@@ -1,6 +1,4 @@
-"""
-Lessons about filesystems and files.
-"""
+"""Lessons about filesystems and files."""
 # Note: Add function and keyword examples to basics
 
 # r = read, w = write, a = append
