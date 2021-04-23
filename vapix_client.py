@@ -1,8 +1,10 @@
+#!/usr/bin/env python3
 """
 Vapix module to interact with AXIS IP devices more easily.
 
 Created 2021-04-09
 """
+import fire
 import requests
 from requests.auth import HTTPDigestAuth
 
@@ -25,7 +27,7 @@ def fetch_params(host: str, password: str = "pass") -> dict:
     """Fetch parameters from AXIS device via param.cgi.
 
     :param host:        IPv4 address of an AXIS device
-    :param password:    Password for root user, default = pass
+    :param password:    Password for root user
     :return:            Dictionary containing the device's settings
     """
     # https://docs.python-requests.org/en/latest
@@ -58,8 +60,48 @@ def fetch_params(host: str, password: str = "pass") -> dict:
 
 
 def fetch_server_report(host: str, password: str = "pass") -> str:
-    """Describe how this function works."""
+    """Fetch server report from an AXIS device.
+
+    :param host:        IPv4 address of an AXIS device
+    :param password:    Password for root user
+    :return:            Serverreport as string
+    """
+    # Send request
+    response = requests.get(
+        f"http://{host}/axis-cgi/serverreport.cgi",
+        auth=HTTPDigestAuth("root", password),
+    )
+
+    # Confirm request was successful and return it's content as string/text
+    response.raise_for_status()
+    return response.text
 
 
-for ip_address in get_ips_from_text("ip_list.txt"):
-    print(fetch_params(ip_address))
+def fetch_info(host: str, password: str = "pass") -> str:
+    """Fetch basic device info from an AXIS device.
+
+    :param host:        IPv4 address of an AXIS device
+    :param password:    Password for root user
+    :return:            Basic device info as string
+    """
+    # https://www.axis.com/vapix-library/subjects/t10037719/section/t10132180/display
+    # https://docs.python-requests.org/en/latest/api/#requests.post
+
+    # From the VAPIX library we know that we need to send a json
+    # which is basically a dictionary (Below is copy pasted for the vapix-library)
+    json_data = {"apiVersion": "1.0", "method": "getAllProperties"}
+
+    # Send post request (because we are sending data)
+    response = requests.post(
+        f"http://{host}/axis-cgi/basicdeviceinfo.cgi",
+        auth=HTTPDigestAuth("root", password),
+        json=json_data,
+    )
+
+    # Confirm request was successful and return it's content as string/text
+    response.raise_for_status()
+    return response.text
+
+
+if __name__ == "__main__":
+    fire.Fire(fetch_info)
