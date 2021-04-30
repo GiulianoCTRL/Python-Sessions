@@ -16,7 +16,11 @@ Attribute:  An attribute is either a method or a property of a class.
 
 # Class keyword to define a class, no use of brackets
 class Vehicle:
-    """Class defining vehicles."""
+    """Class defining vehicles.
+    
+    :param brand:   Brand/manufacturer of the vehicle
+    :param model:   Model of specified brand
+    """
 
     # The __init__ function initializes an instance of a class
     # Self is used to refer to an instance itself
