@@ -2,6 +2,9 @@
 """
 Vapix module to interact with AXIS IP devices more easily.
 
+AXIS API Documentation:
+https://www.axis.com/vapix-library/
+
 Created 2021-04-09
 """
 import fire
@@ -23,85 +26,77 @@ def get_ips_from_text(filename: str) -> list:
     return ip_list
 
 
-def fetch_params(host: str, password: str = "pass") -> dict:
-    """Fetch parameters from AXIS device via param.cgi.
+class AxisDevice:
+    """Gathering of methods for Axis devices.
 
     :param host:        IPv4 address of an AXIS device
     :param password:    Password for root user
-    :return:            Dictionary containing the device's settings
     """
-    # https://docs.python-requests.org/en/latest
-    # https://realpython.com/python-requests/
-    response = requests.get(
-        f"http://{host}/axis-cgi/param.cgi?action=list",
-        auth=HTTPDigestAuth("root", password),
-    )
-    # Does request succeed?
-    response.raise_for_status()
 
-    settings = {}
-    # Get response content as text
-    param_text = response.text
-    # split string after each newline symbol (\n) into a list of strings
-    param_list = param_text.split("\n")
-    for line in param_list:
-        # Check that param is not empty, continue to next item in loop
-        if line == "":
-            continue
-        # Initialize two variables at the same time, as we split each line
-        # into a list of two strings, the left side of the = and the right side
-        # of it
-        param, value = line.split("=", maxsplit=1)
-        # Add a key (name of the parameter) with the value of the parameter
-        settings[param] = value
+    def __init__(self, host: str, password: str = "pass"):
+        """Initialize Axis device with host and password."""
+        self.host = host
+        self.password = password
+        self.auth = HTTPDigestAuth("root", password)
 
-    # Return the freshly populated settings dict!
-    return settings
+    def fetch_params(self) -> dict:
+        """Fetch parameters from AXIS device via param.cgi.
 
+        :return:            Dictionary containing the device's settings
+        """
+        # https://docs.python-requests.org/en/latest
+        # https://realpython.com/python-requests/
+        response = requests.get(
+            f"http://{self.host}/axis-cgi/param.cgi?action=list",
+            auth=self.auth,
+        )
+        response.raise_for_status()
+        settings = {}
+        param_text = response.text
+        param_list = param_text.split("\n")
+        for line in param_list:
+            if line == "":
+                continue
+            param, value = line.split("=", maxsplit=1)
+            settings[param] = value
 
-def fetch_server_report(host: str, password: str = "pass") -> str:
-    """Fetch server report from an AXIS device.
+        return settings
 
-    :param host:        IPv4 address of an AXIS device
-    :param password:    Password for root user
-    :return:            Serverreport as string
-    """
-    # Send request
-    response = requests.get(
-        f"http://{host}/axis-cgi/serverreport.cgi",
-        auth=HTTPDigestAuth("root", password),
-    )
+    def fetch_server_report(self) -> str:
+        """Fetch server report from an AXIS device.
 
-    # Confirm request was successful and return it's content as string/text
-    response.raise_for_status()
-    return response.text
+        :param host:        IPv4 address of an AXIS device
+        :param password:    Password for root user
+        :return:            Serverreport as string
+        """
+        response = requests.get(
+            f"http://{self.host}/axis-cgi/serverreport.cgi", auth=self.auth
+        )
 
+        response.raise_for_status()
+        return response.text
 
-def fetch_info(host: str, password: str = "pass") -> str:
-    """Fetch basic device info from an AXIS device.
+    def fetch_info(self) -> str:
+        """Fetch basic device info from an AXIS device.
 
-    :param host:        IPv4 address of an AXIS device
-    :param password:    Password for root user
-    :return:            Basic device info as string
-    """
-    # https://www.axis.com/vapix-library/subjects/t10037719/section/t10132180/display
-    # https://docs.python-requests.org/en/latest/api/#requests.post
+        :return:            Basic device info as string
+        """
+        # From the VAPIX library we know that we need to send a json
+        # which is basically a dictionary (Below is copy pasted for the vapix-library)
+        json_data = {"apiVersion": "1.0", "method": "getAllProperties"}
 
-    # From the VAPIX library we know that we need to send a json
-    # which is basically a dictionary (Below is copy pasted for the vapix-library)
-    json_data = {"apiVersion": "1.0", "method": "getAllProperties"}
+        # Send post request (because we are sending data)
+        response = requests.post(
+            f"http://{self.host}/axis-cgi/basicdeviceinfo.cgi",
+            auth=self.auth,
+            json=json_data,
+        )
 
-    # Send post request (because we are sending data)
-    response = requests.post(
-        f"http://{host}/axis-cgi/basicdeviceinfo.cgi",
-        auth=HTTPDigestAuth("root", password),
-        json=json_data,
-    )
-
-    # Confirm request was successful and return it's content as string/text
-    response.raise_for_status()
-    return response.text
+        # Confirm request was successful and return it's content as string/text
+        response.raise_for_status()
+        return response.text
 
 
 if __name__ == "__main__":
-    fire.Fire(fetch_info)
+    fire.Fire(AxisDevice)
+
