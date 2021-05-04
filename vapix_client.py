@@ -96,7 +96,26 @@ class AxisDevice:
         response.raise_for_status()
         return response.text
 
+    # 1. Defined what we need and have (image.cgi, data format, figure out how to write data)
+    # 2. Wrote function that just prints data to terminal
+    # 3. Tested out how to present data
+    #   a. Copy paste data from terminal to file and save as jpg -> failed
+    #   b. Tried write whole data via response.raw.read() to image -> success, but
+    #       might cause problems for large file
+    # 4. Iterate over content in chunks (1024 bytes each) and write chunks to file
+    def fetch_image(self) -> None:
+        """Display image data as string."""
+        response = requests.get(
+            f"http://{self.host}/axis-cgi/jpg/image.cgi",
+            auth=self.auth,
+            stream=True,
+        )
+
+        response.raise_for_status()
+        with open("image.jpg", "wb") as image:
+            for chunk in response.iter_content(chunk_size=1024):
+                image.write(chunk)
+
 
 if __name__ == "__main__":
     fire.Fire(AxisDevice)
-
