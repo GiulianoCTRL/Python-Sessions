@@ -55,7 +55,6 @@ f **= 2     # 16
 >>> 9 % 3
 0
 
-
 ```
 
 ### Strings
@@ -133,7 +132,8 @@ del names[1]
 >>> names
 ["Alfonso", "Waluigi", "Yoda", "Georgina"]
 ```
-### Tuple
+
+### Tuples
 ```python
 # Tuples is intialized/marked by brackets ()
 # Tuples are not changeable (this is called immutable)
@@ -151,4 +151,86 @@ mixed_tuple = (some_name, "Mountain top", 145, 77.774, True)
 all_lists = (numbers, (names, string_tuple), mixed_tuple, some_name, True)
 
 # All the above stuff on lists does not work here
+```
+
+### Dictionary
+```python
+"""
+Dictionaries, similar to real (physical) dictionaries contain some sort of
+key/item to look up and a value representing that.
+E.g. in a English-Swedish wordbook looking up the word "Bread" will return
+the result "Bröd".
+"""
+
+# Defined by curly brackets
+# Content is listed as key: value
+# A key should be immutable(not changeable) e.g. int, str, float, but is mainly floats
+# In this example english word: swedish translation
+eng_swe_dict = {
+    "I": "jag",
+    "meaning": "betydelse",
+    "mother": "mamma",
+}
+
+# Dictionaries can contain different variable types
+frank = {
+    "Nationality": "Swiss",
+    "Age": 33,
+    "Friends": ["John", "Peter", "Kanisha", "Yoko"],
+    "Married": False,
+}
+
+# Accessing item in dict
+# English-Swedish dictionary methaphor: We are looking up the word "mother"
+# and find the answer "mamma"
+>>> eng_swe_dict["mother"]
+"mamma"
+>>> frank["Age"]
+33
+# Not possible to access by index as dict will search for key named 0
+>>> frank[0]
+KeyError: 0
+
+# Adding to a dictionary
+# We add a new word "source" to the dictionary, it's meaning "källa"
+# If a key already exists, it will be overwritten
+eng_swe_dict["source"] = "källa"
+frank["Hometown"] = "Bern"
+
+>>> frank["Age"]
+33
+frank["Age"] = 47
+>>> frank["Age"]
+47
+
+# Displaying the modified dictionary
+>>> frank
+{
+    "Nationality": "Swiss",
+    "Age": 47,
+    "Friends": ["John", "Peter", "Kanisha", "Yoko"],
+    "Married": False,
+    "Hometown" = "Bern"
+}
+
+# Only get the keys
+>>> frank.keys()
+# List of keys (string in this case)
+dict_keys(['Nationality', 'Age', 'Friends', 'Married', 'Hometown'])
+# Only get values
+>>> frank.values()
+# List of values (Mixed)
+dict_values(['Swiss', 33, ['John', 'Peter', 'Kanisha', 'Yoko'], False])
+>>> frank.items()
+# List of tuples containing key, value (key, value)
+dict_items([
+    ('Nationality', 'Swiss'),
+    ('Age', 33),
+    ('Friends', ['John', 'Peter', 'Kanisha', 'Yoko']),
+    ('Married', False),
+])
+
+# Accessing nested items (Enumerations (list, tuples etc.))
+>>> frank["Friends"][1]
+"Peter"
 ```
