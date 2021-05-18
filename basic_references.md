@@ -2,6 +2,7 @@
 
 ## Basic types
 ```python
+""" The basic types are straightforward and easy to use."""
 integer = 1                     # Whole numbers
 string = "String"               # String with double quotes
 alternative_string = 'String'   # String with single quotes (same function)
@@ -11,6 +12,8 @@ boolean = True                  # Either True or False
 
 ## Arithmic operators
 ```python
+""" Math in python works on different types."""
+
 # Addition
 a = 4 + 4   # 8
 b = a + 5   # 8 + 5 = 13
@@ -58,8 +61,11 @@ f **= 2     # 16
 ```
 
 ### Strings
-Strings have different features to format them easily:
 ```python
+"""
+Strings are defined by quotation marks. Below are some alternatives of
+formatting strings.
+"""
 # Alternative 1: Simple addition
 string1 = "Hello" 
 string2 = "John"
@@ -79,8 +85,11 @@ f"{string1} {string2}"
 ## Advanced types
 ### Lists
 ```python
-# List is intialized/marked by square brackets []
-# Lists and there content are changeable (this is called mutable)
+"""
+List is intialized/marked by square brackets []
+Lists and there content are changeable (this is called mutable)
+"""
+
 # A list of integers
 numbers = [7537, 234, 128, 234, 383, 422, 335]
 # A list of strings
@@ -135,8 +144,10 @@ del names[1]
 
 ### Tuples
 ```python
-# Tuples is intialized/marked by brackets ()
-# Tuples are not changeable (this is called immutable)
+"""
+Tuples is intialized/marked by brackets ()
+Tuples are not changeable (this is called immutable)
+"""
 
 # A tuple of integers
 numbers_tuple = (7537, 234, 128, 234, 383, 422, 335)
