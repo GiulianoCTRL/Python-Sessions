@@ -23,7 +23,7 @@ a += 10     # 18 + 10 = 28
 >>> a
 28
 
-# Same for substraction
+# Same for subtraction
 c = 3 - 4   # -1
 c -= 4      # -4
 >>> c
@@ -78,7 +78,7 @@ string2 = "John"
 >>> "{} {}.".format(string1, string2)
 
 # Alternative 3: f(ormat) strings
-# This alternativ is clearer and shorter than alternative 2
+# This alternative is clearer and shorter than alternative 2
 f"{string1} {string2}"
 ```
 
@@ -86,7 +86,7 @@ f"{string1} {string2}"
 ### Lists
 ```python
 """
-List is intialized/marked by square brackets []
+List is initialized/marked by square brackets []
 Lists and there content are changeable (this is called mutable)
 """
 
@@ -98,7 +98,7 @@ names = ["Alfonso", "Wellington", "Waluigi", "Gian-Giuseppe"]
 string_list = [string1, string2]
 
 some_name = "Chad"
-# A list is not resitricted by a single type
+# A list is not restricted by a single type
 mixed_list = [some_name, "Mountain top", 145, 77.774, True]
 # This means we can also have a list of lists (nested)
 all_lists = [numbers, [names, string_list], mixed_list, some_name, True]
@@ -121,7 +121,7 @@ IndexError: list index out of range
 names.append("Georgina")
 >>> names
 ["Alfonso", "Wellington", "Waluigi", "Gian-Giuseppe", "Georgina"]
-# Arithmic operators also useable
+# Arithmetic operators also useable
 numbers += [777, 666]
 >>> numbers
 [7537, 234, 128, 234, 383, 422, 335, 777, 666]
@@ -145,7 +145,7 @@ del names[1]
 ### Tuples
 ```python
 """
-Tuples is intialized/marked by brackets ()
+Tuples is initialized/marked by brackets ()
 Tuples are not changeable (this is called immutable)
 """
 
@@ -156,7 +156,7 @@ names_tuple = ("Alfonso", "Wellington", "Waluigi", "Gian-Giuseppe")
 # Variables can be in a list, too
 string_tuple = (string1, string2)
 
-# A list is not resitricted by a single type
+# A list is not restricted by a single type
 mixed_tuple = (some_name, "Mountain top", 145, 77.774, True)
 # This means we can also have a list of lists (nested)
 all_lists = (numbers, (names, string_tuple), mixed_tuple, some_name, True)
@@ -192,7 +192,7 @@ frank = {
 }
 
 # Accessing item in dict
-# English-Swedish dictionary methaphor: We are looking up the word "mother"
+# English-Swedish dictionary metaphor: We are looking up the word "mother"
 # and find the answer "mamma"
 >>> eng_swe_dict["mother"]
 "mamma"
