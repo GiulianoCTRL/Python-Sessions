@@ -5,9 +5,10 @@ Companion Software.
 Axis VAPIX documentation: https://www.axis.com/vapix-library/
 """
 # Read axis documentation +
-# APIs to use: 
+# APIs to use:
 #       - /axis-cgi/rootpwdsetvalue.cgi -> check if root exists
 #       - /axis-cgi/pwdgrp.cgi -> change password/create initial user
+# params for above cgi
 # action=add&user=root&pwd=pass&grp=root&sgrp=admin:operator:viewer:ptz
 # Read json for settings +
 # Check requests for success
@@ -18,7 +19,8 @@ Axis VAPIX documentation: https://www.axis.com/vapix-library/
 import json
 
 import requests
-from requests.auth import HTTPDigestAuth
+
+# from requests.auth import HTTPDigestAuth
 
 
 def _read_settings() -> dict:
@@ -33,7 +35,7 @@ def _read_settings() -> dict:
 
 def _send_request(host: str, api: str, params=None, auth=None) -> requests.Response:
     """Send request to device.
-    
+
     :param host:        IP or host address of AXIS device
     :param api:         API to use when sending request, inc. first /
     :param params:      Eventual parameters for API as dict
@@ -46,5 +48,42 @@ def _send_request(host: str, api: str, params=None, auth=None) -> requests.Respo
     return resp
 
 
-if __name__ == '__main__':
-    print(_read_settings())
+def is_root_set(host: str) -> bool:
+    """Check if root account has been configured for AXIS device.
+
+    :param host:        IP or host address of AXIS device
+    :return:            Whether root is configured
+    """
+    # https://docs.python-requests.org/en/latest/api/#requests.Response.text
+    resp = _send_request(host, "/axis-cgi/rootpwdsetvalue.cgi").text
+    # bool() function returns if a statement is True or False
+    return bool("yes" in resp.split("=")[-1])
+
+
+def create_root_account(host: str):
+    """Create root account for AXIS device.
+
+    :param host:        IP or host address of AXIS device
+    :return:            ?
+    """
+    # https://docs.python-requests.org/en/latest/api/#requests.request
+    # Add auth to function? Should it be added? Why or why not?
+    # API to use /axis-cgi/pwdgrp.cgi
+    # This should be a params dict for that API:
+    # action=add&user=root&pwd=pass&grp=root&sgrp=admin:operator:viewer:ptz
+    # Finish this function
+
+
+def main():
+    """Run script."""
+    settings = _read_settings()
+    root_set = is_root_set(settings["src"])
+    return root_set
+
+
+# If file is directly executed ($ python3 filename.py) the file will
+# internally (in python) be known as __main__
+# If a file is imported it will be known by it's filename, e.g.
+# if the file is named "something.py" it is known as something
+if __name__ == "__main__":
+    print(main())
