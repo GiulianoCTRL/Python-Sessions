@@ -245,3 +245,15 @@ dict_items([
 >>> frank["Friends"][1]
 "Peter"
 ```
+
+### Raising errors
+```python
+# to raise an error the raise keyword is used. This gives the program
+# better trobleshooting potential
+# Some error types are: IndexError, TypeError, ValueError, KeyError
+animal_type = "TacocaT"
+
+# This wil crash the program
+raise TypeError(f"Animal is not a cat, but a {animal_type}.")
+>>> TypeError: Animal is not a cat, but a TacocaT.
+```

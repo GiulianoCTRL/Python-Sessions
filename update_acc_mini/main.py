@@ -60,25 +60,37 @@ def is_root_set(host: str) -> bool:
     return bool("yes" in resp.split("=")[-1])
 
 
-def create_root_account(host: str):
+def create_root_account(host: str, password: str):
     """Create root account for AXIS device.
-
     :param host:        IP or host address of AXIS device
+    :param pass:        new password from json
     :return:            ?
     """
-    # https://docs.python-requests.org/en/latest/api/#requests.request
-    # Add auth to function? Should it be added? Why or why not?
+    # https://docs.python-requests.org/en/master/user/quickstart/#passing-parameters-in-urls
     # API to use /axis-cgi/pwdgrp.cgi
-    # This should be a params dict for that API:
-    # action=add&user=root&pwd=pass&grp=root&sgrp=admin:operator:viewer:ptz
-    # Finish this function
+    # params for API: action=add&user=root&pwd=pass&grp=root&sgrp=admin:operator:viewer:ptz
+    payload = {
+        "action": "add",
+        "user": "root",
+        "pwd": password,
+        "grp": "root",
+        "sgrp": "admin:operator:viewer:ptz",
+    }
+    resp = _send_request(f"http://{host}/axis-cgi/pwdgrp.cgi", params=payload).text
+    if "Created account root" not in resp:
+        raise ValueError(f"Root account not created, response content {resp}")
 
 
 def main():
     """Run script."""
+    # Read settings into dict
     settings = _read_settings()
-    root_set = is_root_set(settings["src"])
-    return root_set
+    host = settings["src"]
+    # Check if root account is set
+    if not is_root_set(host):
+        # If root is not set, create root account
+        password = settings["password"]
+        create_root_account(host, password)
 
 
 # If file is directly executed ($ python3 filename.py) the file will
