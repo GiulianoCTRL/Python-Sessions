@@ -32,5 +32,3 @@ def reverse_words(text: str) -> str:
     # 2. Reverse each word.
     # 3. Join words into new sentence.
     pass
-
-
