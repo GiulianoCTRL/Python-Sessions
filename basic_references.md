@@ -246,14 +246,95 @@ dict_items([
 "Peter"
 ```
 
+### Statements and conditions
+```python
+"""
+Statements are either True or False. They cannot have any other value.
+Therefore statements always return booleans.
+"""
+# Basic statement
+2 == 1 + 1
+>>> True
+
+3 == 1 + 1
+>>> False
+
+# If statement
+# if (statement) then do X, elif do Y, else (if none of the above is true) do Z
+# If one arm of the if block evaluates to True, then the rest of the code in the if block
+# will not be executed
+if 2 + 3 == 4:
+    print("Nani?")
+elif 3 + 3 == 6: 
+    print("Quick math.")
+# If statement is not true
+else:
+    print("You sir, are wrong!")
+
+# Statement/Conditional operators
+4 == 4  # 4 is equal to 4 (True)
+4 != 4  # 4 is not equal to 4 (False)
+4 is 4  # is compares the location in memory of an object
+# as the second 4 is a new object, the location will not be the same,
+# so first 4's location does not equal seconds 4's location (False)
+a = 4
+a is a # (True)
+# As a is a variable it is stored in a specific location. So we compare it's location
+# Is a's location equal to a's location? Yes (True)
+b = 4
+a is not b  # The location of a is not not the same as b's location (True)
+"a" in "alpha"  # Is a in alpha? (True)
+"a" not in "alpha" # Is a not in alpha? (False)
+```
+
 ### Raising errors
 ```python
 # to raise an error the raise keyword is used. This gives the program
-# better trobleshooting potential
+# better troubleshooting potential
 # Some error types are: IndexError, TypeError, ValueError, KeyError
 animal_type = "TacocaT"
 
 # This wil crash the program
 raise TypeError(f"Animal is not a cat, but a {animal_type}.")
 >>> TypeError: Animal is not a cat, but a TacocaT.
+```
+
+### Testing code
+```python
+# A unit test, test a small of code, a so called unit
+# When testing specific functions/parts of our code
+import unittest
+
+def add5(number: int) -> int:
+    return number + 5
+
+# In separate file, or at the end of current file create a test class
+# called TestXYZ in UpperCamelCase
+class TestCategory(unittest.TestCase):
+
+    # self as only argument
+    # test functions start with test_ and should be descriptive
+    def test_function1_simple(self):
+        # assert that left argument is equal to right argument
+        # add5(4) will be 9 compared to right side, which will also be 9
+        self.assertEqual(add5(4), 9)
+        self.assertEqual(add5(7), 12)
+
+    # Edge cases are rarer cases
+    def test_function1_edge_case(self):
+        self.assertEqual(add5(-4), 1)
+        self.assertEqual(add5(0), 5)
+
+
+# run tests if we run the file via command line
+if __name__ == "__main__":
+    # Runs all unit tests that are named TestXYZ and inherit from unittest.TestCase
+    unittest.main()
+
+# If success
+.. # Each dot marks a test . for passed F for failed
+----------------------------------------------------------------------
+# Error summary would be here if test fails
+Ran 2 tests in 0.001s
+OK  # FAILED if any test failed
 ```
