@@ -80,6 +80,25 @@ string2 = "John"
 # Alternative 3: f(ormat) strings
 # This alternative is clearer and shorter than alternative 2
 f"{string1} {string2}"
+
+# Some string methods
+# Strip string of whitespace
+string3 = "  Haha, this input has whitespace.   "
+string3.rstrip() # Remove whitespace from the end (right) of the string
+>>> "  Haha, this input has whitespace."
+string3.lstrip() # Remove whitespace from the beginning (left) of the string
+>>> "Haha, this input has whitespace.   "
+string3.strip() # Remove whitespace from the both ends of the string.
+>>> "Haha, this input has whitespace."
+
+# Determine how string starts or ends
+string4 = "This string starts with this and ends with that."
+string4.startswith("This")
+>>> True
+string4.endswith("This")
+>>> False
+string4.endswith("that")
+>>> True
 ```
 
 ## Advanced types
@@ -287,16 +306,35 @@ a is not b  # The location of a is not not the same as b's location (True)
 "a" not in "alpha" # Is a not in alpha? (False)
 ```
 
-### Raising errors
+### Raising errors/exceptions
 ```python
 # to raise an error the raise keyword is used. This gives the program
 # better troubleshooting potential
-# Some error types are: IndexError, TypeError, ValueError, KeyError
+# Some error types are: IndexError, TypeError, ValueError, KeyError, etc.
 animal_type = "TacocaT"
 
 # This wil crash the program
 raise TypeError(f"Animal is not a cat, but a {animal_type}.")
 >>> TypeError: Animal is not a cat, but a TacocaT.
+
+# It can also be useful to ignore exceptions and/or process them
+# without the program crashing. This can be done with a so called
+# try/except(/finally) block.
+import logging
+
+user_input = input("Write a number: ")
+try:
+    assert isinstance(user_input, str)  # Code might fail with AssertionError
+    user_input = int(user_input)  # Code might fail with ValueError if not a number
+except AssertionError:  # If an assertion error occurs we might want set a default instead of crashing the program
+    user_input = "Default"
+except ValueError as error:  # We can assign the error to a variable
+    logging.debug(str(error))  # We could log the original error
+    raise TypeError(f"{user_input} is not a number.")  # We are changing the error we are raising
+finally:  # This part will always be executed, even if a exception is handled or the try block is successful
+    print(f"Your input was: {user_input}")
+    
+# Note: A variable created in the try: block will not be accessible if the block fails.
 ```
 
 ### Testing code
