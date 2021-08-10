@@ -4,6 +4,7 @@ from typing import List
 import unittest
 
 
+# 0. Create virtual environment
 # 1. Ensure basic functionality is given
 # 2. Write down similarities to analyse server report 
 #    Sections to separate (----- **** -----)
