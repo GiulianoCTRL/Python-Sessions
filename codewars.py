@@ -61,6 +61,24 @@ def count(string: str) -> dict:
     return counts
 
 
+# Challenge 4
+# Jaden case: capitalize each word of in a string.
+# Not Jaden-Cased: "How can mirrors be real if our eyes aren't real"
+# Jaden-Cased:     "How Can Mirrors Be Real If Our Eyes Aren't Real"
+def to_jaden_case(string):
+    # Long way
+    # words = string.split()
+    # cap_words = []
+    # for word in words:
+    #     cap_words.append(word)
+    
+    # return " ".join(cap_words)
+
+    # Short way
+    return " ".join([word.captitalize() for word in string.split(" ")])
+
+
+
 class TestEndswithChallenge(unittest.TestCase):
 
     def test_count_empty_string(self):

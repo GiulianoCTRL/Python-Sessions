@@ -64,5 +64,21 @@ print(list(no_twos))
 print(list(no_threes))
 print(list(no_fives))
 
+# List comprehension: Making list creation/initialization through loops easy
+# creating a list of numbers from 1 to 10
+# Traditional
+numbers = []
+for num in range(10):
+    numbers.append(num + 1)
+print(numbers)
+# [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+# Easier to read and faster
+numbers_fast = [num + 1 for num in range(10)]
+print(numbers_fast)
+# [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+# NEW_LIST = [VARIABLE.some_action() for VARIABLE in *Iterable]
+# *Iterable refers to iterable objects (loopable) e.g. lists, tuples, dicts, etc.
 
 # TODO GiulianoCTRL: sort, dict from list, tuples, adding two lists
